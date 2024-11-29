@@ -1,16 +1,20 @@
-using System;
-using System.Collections.Generic;
-
-class Program
-{
-    static void Main(string[] args)
+static int GetMaxArea(int[] hist, int n)
     {
-        Console.WriteLine("Enter the number of bars in the histogram:");
-        int n = Convert.ToInt32(Console.ReadLine());
-        int[] histogram = new int[n];
-        Console.WriteLine("Enter the heights of the bars:");
-        for (int i = 0; i < n; i++)
+        Stack<int> s = new Stack<int>();
+        int max_area = 0;
+        int tp;
+        int area_with_top;
+        int i = 0;
+        while (i < n)
         {
-            histogram[i] = Convert.ToInt32(Console.ReadLine());
+            if (s.Count == 0 || hist[s.Peek()] <= hist[i])
+                s.Push(i++);
+            else
+            {
+                tp = s.Peek();
+                s.Pop();
+                area_with_top = hist[tp] * (s.Count == 0 ? i : i - s.Peek() - 1);
+                if (max_area < area_with_top)
+                    max_area = area_with_top;
+            }
         }
-    }
